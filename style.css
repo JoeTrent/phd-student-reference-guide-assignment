@@ -22,14 +22,23 @@ height: 100%;
 padding: 1em;
 }
 
-.home-page{
+h1{
+    margin-top:3em;
+}
+
+
+.section{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.home-page h1{
-    margin-top:4em;
+
+
+
+
+.hidden{
+    display:none;
 }
 
