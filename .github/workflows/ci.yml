@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push: 
+  pull_request:
+
+
+permissions:
+
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  test-suite:
+    runs-on: ubuntu-latest
+    container: node:22
+    name: Run tests
+    
+    steps: 
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+  
+  deploy: 
+    needs: test-suite
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    environment: 
+      name: github-pages
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup github pages
+        uses: actions/configure-pages@v5
+
+      - name: Website upload
+        uses: actions/upload-pages-artifact@v3
+        with: 
+          path: src
+
+      - name: Deploy to github pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
